@@ -1,52 +1,43 @@
+// lado cliente
 const socket =  io();
-// Swal.fire(
-//     {
-//         title: '',
-//         text: '',
-//         icon:'success'
-//     }
-// )
-console.log("index.js")
+
 socket.on("updateProducts", (updatedProducts) => {
   console.log(updatedProducts)
     updateProductList(updatedProducts);
 });
 
 
-
-const form = document.getElementById('productFormAdd');
-
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-console.log("inserto registro")
-
-  // if (input.value) {
-  //   socket.emit('message', input.value);
-  //   input.value = '';
-  // }
-});
+// socket.on("productsNew", () =>{
+// console.log("index.js productNew")
+// const productName = document.getElementById("productTittle").value;
+// console.log(productName)
+// // const form = document.getElementById('productFormAdd');
+//   // form.addEventListener('submit', (e) => {
+//   //     e.preventDefault();
+//   //   console.log("inserto registro")
+//   // })
+// });
 
 
 
 // Evento para agregar producto
-document.getElementById("addProductBtn").addEventListener("click", () => {
-  console.log("addProductBtn")
-  const productName = document.getElementById("productName").value;
-  const productPrice = document.getElementById("productPrice").value;
+// document.getElementById("addProductBtn").addEventListener("click", () => {
+//   console.log("addProductBtn")
+//   const productName = document.getElementById("productName").value;
+//   const productPrice = document.getElementById("productPrice").value;
 
-  if (productName.trim() !== "" && productPrice.trim() !== "") { 
-      socket.emit("addProduct", {
-        description: productName,
-        price: productPrice,
-      });
-      // Limpiar los campos después de agregar el producto
-      document.getElementById("productName").value = "";
-      document.getElementById("productPrice").value = "";
-  } else {
-    alert("Por favor, ingrese un nombre y un precio para el producto.");
-  }
-});
+//   if (productName.trim() !== "" && productPrice.trim() !== "") { 
+//       socket.emit("addProduct", {
+//         description: productName,
+//         price: productPrice,
+//       });
+//       // Limpiar los campos después de agregar el producto
+//       document.getElementById("productName").value = "";
+//       document.getElementById("productPrice").value = "";
+//   } else {
+//     alert("Por favor, ingrese un nombre y un precio para el producto.");
+//   }
+// });
 
 // Evento para eliminar producto
 document.addEventListener("click", (event) => {
@@ -60,7 +51,7 @@ document.addEventListener("click", (event) => {
 });
 
 function updateProductList(products) {
-  console.log(producsts)
+  console.log(products)
   const productList = document.getElementById("productList");
   productList.innerHTML = "";
 

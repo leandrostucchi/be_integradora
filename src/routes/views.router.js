@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 router.get('/products', async (req, res) => {
   console.log("get products")
   let products = await productManager.getProducts();
-  res.render('products', { products });
+  //res.render('products', { products });
 });
 
 router.get('/productsNew', async (req, res) => {
@@ -27,13 +27,21 @@ router.post('/addProduct', (req,res) =>{
   let body= req.body;
   console.log('router.post /addProduct')
   console.log(body)
-  let resultado= productManager.addProduct(body.tittle,body.description,body.thumbnail,body.price,body.stock,body.code);
-  //res.redirect("/realtimeproducts");
+  let resultado= productManager.addProduct
+  (body.productTittle,body.productDescription,'',body.productPrice,body.productStock,body.productCode)
+  //  (body.productTittle,body.description,body.thumbnail,body.price,body.stock,body.code);
   res.render("productsNew",
-              {resultado}
+              {}
           );
   //res.send(resultado);
 })
+
+router.put('/updProduct', (req,res) =>{
+  let body= req.body;
+  console.log('router.put /updProduct')
+  console.log(body)
+})
+
 
 
 router.get('/carts', async (req, res) => {

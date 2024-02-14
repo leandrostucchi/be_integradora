@@ -57,15 +57,26 @@ productsRouter.get('/:pid', async (req,res) =>{
 
 */
 productsRouter.post('/addProduct', (req,res) =>{
-    let body= req.body;
-    console.log('router.post /addProduct')
-    console.log(body)
-    let resultado= productManager.addProduct(body.tittle,body.description,body.thumbnail,body.price,body.stock,body.code);
-    //res.redirect("/realtimeproducts");
-    res.render("productsNew",
-                {resultado}
-            );
-    //res.send(resultado);
+    console.log(req.url)
+    try{
+        let body= req.body;
+        console.log('router.post /addProduct')
+        console.log(body)
+        let result= productManager.addProduct(body.tittle,body.description,body.thumbnail,body.price,body.stock,body.code);
+            res.status(200).send({
+            status:200,
+            result:"success",
+            payload:result
+        })
+    } catch(error) {
+        console.log("Cannot update Product on Mongo: " + error);
+        res.status(500).send({
+            status:500,
+            result:"error",
+            error:"Error updating data on DB"
+        });
+    }
+    req.body = null;
 })
 
 //? http://localhost:8000/api/products/
@@ -80,7 +91,8 @@ productsRouter.post('/addProduct', (req,res) =>{
     "id": 1
 } 
  */
-productsRouter.put('/modProduct', async (req,res) =>{
+productsRouter.put('/updProduct', async (req,res) =>{
+    console.log('router.put /updProduct')
     try{
         let body= req.body;
         let updRecord = {title:body.tittle,description:body.description,price:body.price,thumbnail:body.thumbnail,code:body.code,stock:body.stock}

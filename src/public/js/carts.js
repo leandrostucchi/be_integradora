@@ -84,5 +84,5 @@ class cartsManager{
 
 }
 
-module.exports = new cartsManager();
+//module.exports = new cartsManager();
 
