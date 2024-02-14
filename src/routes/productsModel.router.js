@@ -1,12 +1,12 @@
 import express from 'express'
 import productManager from "../daos/products.dao.js"
-const router = express.Router();
+const productsRouter = express.Router();
 
 
 //? http://localhost:8000/api/products/ ==> trae todo
 //? http://localhost:8000/api/products/?limit=2 ==> trae limitado
 
-router.get('/',async (req,res) =>{
+productsRouter.get('/',async (req,res) =>{
     const limit = parseInt(req.query.limit) || null;
     let resultado= null;
     console.log('leer producto productos  [' + limit +']')
@@ -36,7 +36,7 @@ router.get('/',async (req,res) =>{
 
 //? http://localhost:8000/api/products/1
 
-router.get('/:pid', async (req,res) =>{
+productsRouter.get('/:pid', async (req,res) =>{
     let id = parseInt(req.params.pid);
     let resultado = await productManager.getProductById(id)
     res.send(resultado)
@@ -56,14 +56,15 @@ router.get('/:pid', async (req,res) =>{
 }
 
 */
-router.post('/addProduct', (req,res) =>{
-    
+productsRouter.post('/addProduct', (req,res) =>{
     let body= req.body;
     console.log('router.post /addProduct')
     console.log(body)
     let resultado= productManager.addProduct(body.tittle,body.description,body.thumbnail,body.price,body.stock,body.code);
     //res.redirect("/realtimeproducts");
-    res.render("products",{products});
+    res.render("productsNew",
+                {resultado}
+            );
     //res.send(resultado);
 })
 
@@ -79,7 +80,7 @@ router.post('/addProduct', (req,res) =>{
     "id": 1
 } 
  */
-router.put('/modProduct', async (req,res) =>{
+productsRouter.put('/modProduct', async (req,res) =>{
     try{
         let body= req.body;
         let updRecord = {title:body.tittle,description:body.description,price:body.price,thumbnail:body.thumbnail,code:body.code,stock:body.stock}
@@ -105,7 +106,7 @@ router.put('/modProduct', async (req,res) =>{
 //? http://localhost:8000/api/products/1
 //? http://localhost:9080/api/products/deleteProduct/:id
 
-router.delete("/deleteProduct/:id", async (req, res) => {
+productsRouter.delete("/deleteProduct/:id", async (req, res) => {
     try{
         let id = parseInt(req.params.id);
         console.log('router.delete /deleteProduct/:id')
@@ -137,7 +138,7 @@ router.delete("/deleteProduct/:id", async (req, res) => {
 // http://localhost:8000/product/?limit=2
 
 
-export default router;
+export default productsRouter;
 
 //? Test
 //let productoNuevo = new productManager();

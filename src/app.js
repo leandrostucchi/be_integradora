@@ -3,8 +3,9 @@ import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import viewsRouter from './routes/views.router.js';
 import productsRouter from "./routes/productsModel.router.js"
+import cartsRouter from "./routes/cartsModel.router.js"
 import { Server } from "socket.io";
-//import productManager from "./daos/products.dao.js"
+
 import mongoose from "mongoose";
 const port = 9080
 
@@ -19,7 +20,8 @@ const httpServer =  app.listen(port,() => console.log('Servidor arriba  puerto:'
 //mongoose.connect('mongodb+srv://lstucchi:tGrjLHdnChKYsgoN@cluster0.s4wk2id.mongodb.net/?retryWrites=true&w=majority');
 const io = new Server(httpServer);
 
-mongoose.connect('mongodb://localhost:27017/Ecommerce')
+mongoose.connect('mongodb+srv://lstucchi:tGrjLHdnChKYsgoN@cluster0.s4wk2id.mongodb.net/ecommerce?retryWrites=true&w=majority')
+//mongoose.connect('mongodb://localhost:27017/Ecommerce')
 .then(success => console.log('Conectado a la base'))
 .catch(error =>{
     if(error){
@@ -45,11 +47,13 @@ app.use('/', viewsRouter)
 
 //ROUTES
 app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
+
 
 io.on('connection', (socket) => {
   console.log('Nuevo cliente conectado')
 
-  socket.on("addProduct", async (data) => {
+  socket.on("productsNew", async (data) => {
     console.log("Entre por aca addProduct" )
     console.log(data)
     //await productManager.addProduct(tittle,description,price,thumbnail,code,stock);

@@ -12,6 +12,8 @@ socket.on("updateProducts", (updatedProducts) => {
     updateProductList(updatedProducts);
 });
 
+
+
 const form = document.getElementById('productFormAdd');
 
 
